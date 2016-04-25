@@ -1,0 +1,11 @@
+{
+  "name": "ldang-p5-neighborhood-map",
+  "version": "1.0.0",
+  "description": "Udacity Front End Nanodegree Program - Project 5",
+  "main": "index.js",
+  "author": "Lisa Dang",
+  "license": "ISC",
+  "dependencies": {
+    "knockout": "^3.4.0"
+  }
+}
