@@ -8,6 +8,7 @@ function Location(name) {
     self.name = name;
     self.lat = 0;
     self.long = 0;
+    self.address = '';
 }
 
 Location.prototype.setLatLong = function(lat, long) {
@@ -17,12 +18,18 @@ Location.prototype.setLatLong = function(lat, long) {
     return this;
 };
 
+Location.prototype.setAddress = function(address) {
+    this.address = address;
+
+    return this;
+};
+
 var locations = [
-    new Location('Q Restaurant').setLatLong(42.3518324, -71.0645836),
-    new Location('Gourmet Dumpling House').setLatLong(42.3515121, -71.0628519),
-    new Location('Hei La Moon').setLatLong(42.3511625, -71.0609087),
-    new Location('New Dong Khanh').setLatLong(42.3509395, -71.0637834),
-    new Location('Penang').setLatLong(42.3513574,-71.0652484)
+    new Location('Q Restaurant').setLatLong(42.3518324, -71.0645836).setAddress('660 Washington St.'),
+    new Location('Gourmet Dumpling House').setLatLong(42.3515121, -71.0628519).setAddress('52 Beach St.'),
+    new Location('Hei La Moon').setLatLong(42.3511625, -71.0609087).setAddress('88 Beach St.'),
+    new Location('New Dong Khanh').setLatLong(42.3509395, -71.0637834).setAddress('81 Harrison Ave.'),
+    new Location('Penang').setLatLong(42.3513574,-71.0652484).setAddress('685 Washington St.')
 ];
 
 var infoWindow, map;
@@ -50,7 +57,7 @@ function initMap() {
 }
 
 function openLocationInfo(location) {
-    infoWindow.setContent(location.name);
+    infoWindow.setContent('<div><strong>' + location.name + '</strong></div><div>' + location.address + '</div>');
     infoWindow.open(map, location.marker);
 }
 
