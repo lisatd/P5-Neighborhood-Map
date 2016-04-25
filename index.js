@@ -25,13 +25,15 @@ var locations = [
     new Location('Penang').setLatLong(42.3513574,-71.0652484)
 ];
 
+var infoWindow, map;
+
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 42.3497472, lng: -71.0651117},
         zoom: 17
     });
 
-    var infoWindow = new google.maps.InfoWindow({});
+    infoWindow = new google.maps.InfoWindow({});
 
     locations.forEach(function(location) {
         location.marker = new google.maps.Marker({
@@ -44,17 +46,21 @@ function initMap() {
             openLocationInfo(location);
         });
     });
+}
 
-    function openLocationInfo(location) {
-        infoWindow.setContent(location.name);
-        infoWindow.open(map, location.marker);
-    }
+function openLocationInfo(location) {
+    infoWindow.setContent(location.name);
+    infoWindow.open(map, location.marker);
 }
 
 function appViewModel() {
     var self = this;
 
     self.locations = ko.observableArray(locations);
+
+    self.openInfoWindow = function(location) {
+        openLocationInfo(location);
+    };
 }
 
 ko.applyBindings(new appViewModel());

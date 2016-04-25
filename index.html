@@ -13,8 +13,8 @@
     </div>
     <div id="map"></div>
     <div id="list">
-        <ul data-bind="foreach: locations">
-            <li data-bind="text: name"></li>
+        <ul data-bind="foreach: locations" class="location-list">
+            <li data-bind="text: name, click: $root.openInfoWindow"></li>
         </ul>
     </div>
 

@@ -20,6 +20,20 @@ html, body {
     color: #fff;
 }
 
+.location-list {
+    list-style-type: none;
+    margin-left: -40px;
+}
+
+.location-list li {
+    padding: 20px;
+}
+
+.location-list li:hover {
+    background-color: #e06a64;
+    cursor: pointer;
+}
+
 @media(min-width: 961px) {
     #list {
         width: 20%;
