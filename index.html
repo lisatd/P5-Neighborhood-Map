@@ -14,7 +14,8 @@
     <div id="map"></div>
     <div id="list">
         <ul data-bind="foreach: locations" class="location-list">
-            <li data-bind="text: name, click: $root.openInfoWindow"></li>
+            <li data-bind="text: name, click: $root.openInfoWindow,
+                           css: {'selected': name === $root.chosenLocationName()}"></li>
         </ul>
     </div>
 

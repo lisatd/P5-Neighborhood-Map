@@ -29,7 +29,7 @@ var infoWindow, map;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 42.3497472, lng: -71.0651117},
+        center: {lat: 42.3512973, lng: -71.0631268},
         zoom: 17
     });
 
@@ -44,6 +44,7 @@ function initMap() {
 
         location.marker.addListener('click', function() {
             openLocationInfo(location);
+            chosenLocationName(location.name);
         });
     });
 }
@@ -53,13 +54,17 @@ function openLocationInfo(location) {
     infoWindow.open(map, location.marker);
 }
 
+var chosenLocationName;
+
 function appViewModel() {
     var self = this;
 
     self.locations = ko.observableArray(locations);
+    self.chosenLocationName = chosenLocationName = ko.observable();
 
     self.openInfoWindow = function(location) {
         openLocationInfo(location);
+        self.chosenLocationName(location.name);
     };
 }
 

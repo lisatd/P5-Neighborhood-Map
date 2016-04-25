@@ -29,7 +29,8 @@ html, body {
     padding: 20px;
 }
 
-.location-list li:hover {
+.location-list li:hover,
+.location-list li.selected {
     background-color: #e06a64;
     cursor: pointer;
 }
