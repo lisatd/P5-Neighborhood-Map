@@ -59,6 +59,12 @@ function initMap() {
 function openLocationInfo(location) {
     infoWindow.setContent('<div><strong>' + location.name + '</strong></div><div>' + location.address + '</div>');
     infoWindow.open(map, location.marker);
+    if (!(location.marker && location.marker.getAnimation())) {
+        location.marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function () {
+            location.marker.setAnimation(null);
+        }, 2000);
+    }
 }
 
 var chosenLocationName;
