@@ -13,8 +13,8 @@
     </div>
     <div id="map"></div>
     <div id="list">
-        <input type="text" id="search-bar" placeholder="Filter..."/>
-        <ul data-bind="foreach: locations" class="location-list">
+        <input type="text" id="search-bar" placeholder="Filter..." data-bind="value: filterText, valueUpdate: 'afterkeydown'"/>
+        <ul data-bind="foreach: filteredLocations" class="location-list">
             <li data-bind="text: name, click: $root.openInfoWindow,
                            css: {'selected': name === $root.chosenLocationName()}"></li>
         </ul>
