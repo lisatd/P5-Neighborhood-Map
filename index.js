@@ -77,8 +77,16 @@ function appViewModel() {
     self.filterText = ko.observable();
 
     self.filteredLocations = ko.computed(function() {
-        return locations.filter(function(location) {
-            return location.name.toLowerCase().indexOf(self.filterText() ? self.filterText().toLowerCase() : '') > -1;
+        return locations.filter(function (location) {
+            if (location.name.toLowerCase().indexOf(self.filterText() ? self.filterText().toLowerCase() : '') === -1) {
+                if (location.marker)
+                    location.marker.setMap(null);
+                return false;
+            } else {
+                if (location.marker)
+                    location.marker.setMap(map);
+                return true;
+            }
         });
     });
 
