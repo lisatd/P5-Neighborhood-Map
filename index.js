@@ -9,6 +9,7 @@ function Location(name) {
     self.lat = 0;
     self.long = 0;
     self.address = '';
+    self.yelpId = '';
 }
 
 Location.prototype.setLatLong = function(lat, long) {
@@ -24,12 +25,33 @@ Location.prototype.setAddress = function(address) {
     return this;
 };
 
+Location.prototype.setYelpId = function(id) {
+    this.yelpId = id;
+
+    return this;
+};
+
 var locations = [
-    new Location('Q Restaurant').setLatLong(42.3518324, -71.0645836).setAddress('660 Washington St.'),
-    new Location('Gourmet Dumpling House').setLatLong(42.3515121, -71.0628519).setAddress('52 Beach St.'),
-    new Location('Hei La Moon').setLatLong(42.3511625, -71.0609087).setAddress('88 Beach St.'),
-    new Location('New Dong Khanh').setLatLong(42.3509395, -71.0637834).setAddress('81 Harrison Ave.'),
-    new Location('Penang').setLatLong(42.3513574,-71.0652484).setAddress('685 Washington St.')
+    new Location('Q Restaurant')
+        .setLatLong(42.3518324, -71.0645836)
+        .setAddress('660 Washington St.')
+        .setYelpId('q-restaurant-boston'),
+    new Location('Gourmet Dumpling House')
+        .setLatLong(42.3515121, -71.0628519)
+        .setAddress('52 Beach St.')
+        .setYelpId('gourmet-dumpling-house-boston'),
+    new Location('Hei La Moon')
+        .setLatLong(42.3511625, -71.0609087)
+        .setAddress('88 Beach St.')
+        .setYelpId('hei-la-moon-boston'),
+    new Location('New Dong Khanh')
+        .setLatLong(42.3509395, -71.0637834)
+        .setAddress('81 Harrison Ave.')
+        .setYelpId('new-dong-khanh-boston'),
+    new Location('Penang')
+        .setLatLong(42.3513574,-71.0652484)
+        .setAddress('685 Washington St.')
+        .setYelpId('penang-boston')
 ];
 
 var infoWindow, map;
@@ -67,34 +89,48 @@ function openLocationInfo(location) {
     }
 }
 
-function newNonce() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for(var i = 0; i < 10; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-}
-
-var parameters = {
-    oauth_consumer_key: 'W3Fgj0pcqayF-INv1iey1g',
-    oauth_token: 'xMdB9y_6YrSkx_4AaxDMi2Ewv0cYPKhs',
-    oauth_nonce: newNonce(),
-    oauth_timestamp: Math.floor(new Date().getTime() / 1000),
-    oauth_signature_method: 'hmac-sha1',
-    oauth_version : '1.0'
+var cb = function (data) {
+    console.log(data.name + ': ' + data.rating);
+    if (i < locations.length)
+        getYelpInfo(locations[i++]);
 };
 
-var sig = oauthSignature.generate('GET', 'https://api.yelp.com/v2/business/q-restaurant-boston', parameters,
-    'aZA03ZKJoMEJBiNG2x-kkWSKCsE', 'hUBw1JK02NI1vqT00_XbrIL0QmU', {encodeSignature: false});
+var i = 0;
+getYelpInfo(locations[i++]);
 
-parameters.oauth_signature = sig;
+function getYelpInfo(location) {
+    var parameters = {
+        oauth_consumer_key: 'W3Fgj0pcqayF-INv1iey1g',
+        oauth_token: 'xMdB9y_6YrSkx_4AaxDMi2Ewv0cYPKhs',
+        oauth_nonce: newNonce(),
+        oauth_timestamp: Math.floor(Date.now() / 1000),
+        oauth_signature_method: 'HMAC-SHA1',
+        oauth_version : '1.0',
+        callback: 'cb'
+    };
+    var yelpURL = 'https://api.yelp.com/v2/business/' + location.yelpId;
 
-function callback(data) {
-    console.log(data);
+    var sig = oauthSignature.generate('GET', yelpURL, parameters,
+        'aZA03ZKJoMEJBiNG2x-kkWSKCsE', 'hUBw1JK02NI1vqT00_XbrIL0QmU', {encodeSignature: false});
+
+    parameters.oauth_signature = sig;
+
+    $.ajax({
+        url: yelpURL,
+        data: parameters,
+        cache: true,
+        dataType: 'jsonp',
+        jsonpCallback: 'cb',
+        error: function(e) {
+            console.log('error');
+            console.log(e);
+        }
+    });
 }
 
-$.get('https://api.yelp.com/v2/business/q-restaurant-boston', parameters, callback);
+function newNonce() {
+    return (Math.floor(Math.random() * 1e12).toString());
+}
 
 var chosenLocationName;
 
