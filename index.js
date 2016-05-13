@@ -10,6 +10,10 @@ function Location(name) {
     self.long = 0;
     self.address = '';
     self.yelpId = '';
+    self.rating = {
+        url: '',
+        reviewsCount: 0
+    };
 }
 
 Location.prototype.setLatLong = function(lat, long) {
@@ -79,7 +83,8 @@ function initMap() {
 }
 
 function openLocationInfo(location) {
-    infoWindow.setContent('<div><strong>' + location.name + '</strong></div><div>' + location.address + '</div>');
+    infoWindow.setContent('<div><strong>' + location.name + '</strong></div><div>' + location.address + '</div>' +
+        '<div><img src="' + location.rating.url + '"></div><div>' + location.rating.reviewsCount + ' reviews </div>');
     infoWindow.open(map, location.marker);
     if (!(location.marker && location.marker.getAnimation())) {
         location.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -90,7 +95,8 @@ function openLocationInfo(location) {
 }
 
 var cb = function (data) {
-    console.log(data.name + ': ' + data.rating);
+    locations[i-1].rating.url = data.rating_img_url;
+    locations[i-1].rating.reviewsCount = data.review_count;
     if (i < locations.length)
         getYelpInfo(locations[i++]);
 };
