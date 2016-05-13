@@ -14,6 +14,7 @@ function Location(name) {
         url: '',
         reviewsCount: 0
     };
+    self.yelpUrl = '';
 }
 
 Location.prototype.setLatLong = function(lat, long) {
@@ -38,23 +39,18 @@ Location.prototype.setYelpId = function(id) {
 var locations = [
     new Location('Q Restaurant')
         .setLatLong(42.3518324, -71.0645836)
-        .setAddress('660 Washington St.')
         .setYelpId('q-restaurant-boston'),
     new Location('Gourmet Dumpling House')
         .setLatLong(42.3515121, -71.0628519)
-        .setAddress('52 Beach St.')
         .setYelpId('gourmet-dumpling-house-boston'),
     new Location('Hei La Moon')
         .setLatLong(42.3511625, -71.0609087)
-        .setAddress('88 Beach St.')
         .setYelpId('hei-la-moon-boston'),
     new Location('New Dong Khanh')
         .setLatLong(42.3509395, -71.0637834)
-        .setAddress('81 Harrison Ave.')
         .setYelpId('new-dong-khanh-boston'),
     new Location('Penang')
         .setLatLong(42.3513574,-71.0652484)
-        .setAddress('685 Washington St.')
         .setYelpId('penang-boston')
 ];
 
@@ -83,8 +79,8 @@ function initMap() {
 }
 
 function openLocationInfo(location) {
-    infoWindow.setContent('<div><strong>' + location.name + '</strong></div><div>' + location.address + '</div>' +
-        '<div><img src="' + location.rating.url + '"></div><div>' + location.rating.reviewsCount + ' reviews </div>');
+    infoWindow.setContent('<div><a href="' + location.yelpUrl + '" target="_blank">' + location.name + '</a></div><div>' + location.address + '</div>' +
+        '<div><img src="images/yelp-logo-xsmall.png" class="yelp-logo"><img src="' + location.rating.url + '"></div><div>' + location.rating.reviewsCount + ' reviews </div>');
     infoWindow.open(map, location.marker);
     if (!(location.marker && location.marker.getAnimation())) {
         location.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -97,6 +93,8 @@ function openLocationInfo(location) {
 var cb = function (data) {
     locations[i-1].rating.url = data.rating_img_url;
     locations[i-1].rating.reviewsCount = data.review_count;
+    locations[i-1].address = data.location.address[0];
+    locations[i-1].yelpUrl = data.url;
     if (i < locations.length)
         getYelpInfo(locations[i++]);
 };
