@@ -67,6 +67,35 @@ function openLocationInfo(location) {
     }
 }
 
+function newNonce() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(var i = 0; i < 10; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
+
+var parameters = {
+    oauth_consumer_key: 'W3Fgj0pcqayF-INv1iey1g',
+    oauth_token: 'xMdB9y_6YrSkx_4AaxDMi2Ewv0cYPKhs',
+    oauth_nonce: newNonce(),
+    oauth_timestamp: Math.floor(new Date().getTime() / 1000),
+    oauth_signature_method: 'hmac-sha1',
+    oauth_version : '1.0'
+};
+
+var sig = oauthSignature.generate('GET', 'https://api.yelp.com/v2/business/q-restaurant-boston', parameters,
+    'aZA03ZKJoMEJBiNG2x-kkWSKCsE', 'hUBw1JK02NI1vqT00_XbrIL0QmU', {encodeSignature: false});
+
+parameters.oauth_signature = sig;
+
+function callback(data) {
+    console.log(data);
+}
+
+$.get('https://api.yelp.com/v2/business/q-restaurant-boston', parameters, callback);
+
 var chosenLocationName;
 
 function appViewModel() {
