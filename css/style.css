@@ -74,7 +74,7 @@ html, body {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     background-color: #f0f0f0;
-    background-image: url(search_icon.svg);
+    background-image: url(../images/search_icon.svg);
     background-repeat: no-repeat;
     background-position: 10px center;
 }
