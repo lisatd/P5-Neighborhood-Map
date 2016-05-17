@@ -6,4 +6,4 @@ Udacity Front End Nanodegree Program - Project 5 Neighborhood Map
 Navigate to [project index](http://lisatd.github.io/P5-Neighborhood-Map).
 
 ## Third Party Resources
-Yelp data was used to provide ratings, reviews, and addresses of the restaurant locations.
+[Yelp](https://www.yelp.com/developers) data was used to provide ratings, reviews, and addresses of the restaurant locations.
