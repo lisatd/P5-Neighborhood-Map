@@ -1,6 +1,12 @@
 /**
  * Created by ldang on 5/17/2016.
  */
+
+/**
+ * Constructor function for a Location object.
+ * @param name {string} - Name of location
+ * @constructor
+ */
 function Location(name) {
     var self = this;
 
@@ -16,6 +22,12 @@ function Location(name) {
     self.yelpUrl = '';
 }
 
+/**
+ * Setter function to set lat long coordinates of Location. Allows for chaining.
+ * @param lat {float} - latitude
+ * @param long {float} - longitude
+ * @returns {Location}
+ */
 Location.prototype.setLatLong = function(lat, long) {
     this.lat = lat;
     this.long = long;
@@ -23,18 +35,18 @@ Location.prototype.setLatLong = function(lat, long) {
     return this;
 };
 
-Location.prototype.setAddress = function(address) {
-    this.address = address;
-
-    return this;
-};
-
+/**
+ * Setter function to set the yelp business id used in queries. Allows for chaining.
+ * @param id {string} - yelp business ID
+ * @returns {Location}
+ */
 Location.prototype.setYelpId = function(id) {
     this.yelpId = id;
 
     return this;
 };
 
+// create the 5 locations for app
 var locations = [
     new Location('Q Restaurant')
         .setLatLong(42.3518324, -71.0645836)
