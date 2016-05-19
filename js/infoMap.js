@@ -3,6 +3,14 @@
  */
 var infoWindow, map, chosenLocationName;
 
+$.ajax({
+    url: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4iyb_5TNyq1_KiMflDb3atZqd2Cu0jw&callback=initMap',
+    dataType: 'script',
+    error: function() {
+        alert('Failed loading Google maps');
+    }
+});
+
 /**
  * Function called by Google API to initialize the map.
  * Creates a marker for each location and a listener to open infoWindows.
