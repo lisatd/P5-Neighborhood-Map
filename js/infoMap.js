@@ -3,13 +3,12 @@
  */
 var infoWindow, map, chosenLocationName;
 
-$.ajax({
-    url: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCp4iyb_5TNyq1_KiMflDb3atZqd2Cu0jw&callback=initMap',
-    dataType: 'script',
-    error: function() {
-        alert('Failed loading Google maps');
-    }
-});
+/**
+ * Error function callback for async script call failing.
+ */
+function mapError() {
+    alert('Error loadding Google Maps.');
+}
 
 /**
  * Function called by Google API to initialize the map.
