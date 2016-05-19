@@ -1,7 +1,6 @@
 /**
  * Created by ldang on 4/24/2016.
  */
-
 /**
  * Callback for jQuery to call when receiving yelp data.
  * Sets the yelp info in Location object then calls yelp API on next location.
@@ -53,6 +52,9 @@ function getYelpInfo(location) {
             // Prompt user if request failed.
             alert('Failed to retrieve yelp data.');
         }
+    }).fail(function() {
+        // Prompt user if request failed.
+        alert('Failed to retrieve yelp data.');
     });
 }
 
